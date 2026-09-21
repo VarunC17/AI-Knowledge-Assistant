@@ -131,3 +131,45 @@ This separation provides several benefits:
 * **Scalability** — Individual parts of the architecture can evolve as the application's requirements grow.
 
 The architecture is therefore designed to keep the system modular while maintaining a clear flow from source documents to retrieved context and, ultimately, user-facing responses.
+
+---
+
+## 6. Document Ingestion
+
+The document ingestion pipeline converts source documents into text chunks that can later be embedded and stored for retrieval.
+
+Ingestion flow
+Document
+   ↓
+Text Loader
+   ↓
+Extracted Text
+   ↓
+Text Chunker
+   ↓
+Text Chunks
+Text Loader
+
+The text loader is responsible for reading supported text files and returning their contents as a string.
+
+Text Chunker
+
+The text chunker receives extracted text and divides it into smaller, non-empty text chunks. The initial implementation uses paragraph boundaries as the chunking strategy.
+
+Document Processor
+
+The document processor coordinates document loading and chunking. It does not implement either operation itself; instead, it combines the text loader and chunker into a single ingestion step.
+
+Future ingestion pipeline
+
+The ingestion pipeline will eventually continue beyond chunking:
+
+Documents
+   ↓
+Document Ingestion
+   ↓
+Text Chunks
+   ↓
+Embeddings
+   ↓
+Vector Store
